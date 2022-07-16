@@ -4,13 +4,21 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.databases.clickhouse import crud, get_db
+from app.exceptions.default import DefaultHTTPException
 from app.routers.users import get_user
 from app.schemas.vk_photo import VkPhotoRequest
 
 router = APIRouter(prefix='/photo')
 
 
-@router.post('/new/{token}')
+@router.post(
+    '/new/{token}',
+    responses={
+        403: {'model': DefaultHTTPException, 'description': "Пользователь не зарегистрирован"},
+        405: {'model': DefaultHTTPException, 'description': "Пользователь заблокирован"},
+        410: {'model': DefaultHTTPException, 'description': "Превышен лимит фотографий"}
+    }
+)
 def add_new_photos(
         token: UUID,
         photos: list[VkPhotoRequest],

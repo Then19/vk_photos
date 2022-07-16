@@ -10,7 +10,7 @@ from app.schemas.user import User
 router = APIRouter(prefix='/users')
 
 
-@router.get('/user')
+@router.get('/user', response_model=User)
 def get_user(
         token: UUID = Query(...),
 
