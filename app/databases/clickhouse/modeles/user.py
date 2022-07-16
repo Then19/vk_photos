@@ -9,6 +9,7 @@ class UserORM(Base):
     telegram_id = Column(String, primary_key=True)
     token = Column(UUID)
     limit = Column(UInt32)
+    refs_count = Column(UInt32)
     blocked_at = Column(Nullable(DateTime64(6, 'UTC')))
     updated_at = Column(DateTime64(6, 'UTC'))
 

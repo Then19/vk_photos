@@ -37,6 +37,7 @@ def startup_event():
         telegram_id String NOT NULL,
         token UUID NOT NULL,
         limit UInt32 NOT NULL,
-        blocked_at Nullable(DateTime64(6, 'UTC'),
+        refs_count UInt32 NOT NULL,
+        blocked_at Nullable(DateTime64(6, 'UTC')),
         updated_at DateTime64(6, 'UTC') NOT NULL)
-        ENGINE=MergeTree() ORDER BY (token, telegram_id, updated_at) PRIMARY KEY telegram_id""")
+        ENGINE=MergeTree() ORDER BY (telegram_id, token, updated_at) PRIMARY KEY telegram_id""")
