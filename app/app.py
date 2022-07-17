@@ -20,7 +20,7 @@ def startup_event():
 
     cursor.execute(
         """CREATE TABLE IF NOT EXISTS vk_photos (
-            token UUID NOT NULL,
+            telegram_id String NOT NULL,
             user_name String NOT NULL,
             image_id UUID NOT NULL,
             chat_id String NOT NULL,
@@ -30,7 +30,7 @@ def startup_event():
             image_date DateTime64(6, 'UTC') NOT NULL,
             updated_at DateTime64(6, 'UTC') NOT NULL,
             deleted_at Nullable(DateTime64(6, 'UTC')))
-            ENGINE=ReplacingMergeTree(updated_at) ORDER BY (token, image_url)"""
+            ENGINE=ReplacingMergeTree(updated_at) ORDER BY (telegram_id, image_url)"""
     )
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS users(

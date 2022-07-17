@@ -1,6 +1,5 @@
 from datetime import datetime
 from typing import Optional
-from uuid import UUID
 
 from sqlalchemy.orm import Session
 from sqlalchemy import tuple_, func
@@ -11,14 +10,15 @@ from app.schemas.sorted_photo import SortedPhoto
 from app.schemas.vk_photo import VkPhoto
 
 
-def get_photo_count(db: Session, token: UUID) -> int:
-    count = db.query(VkPhotoORM).filter(VkPhotoORM.token == token).group_by(VkPhotoORM.image_id).count()
+def get_photo_count(db: Session, telegram_id: str) -> int:
+    count = db.query(VkPhotoORM.image_id).filter(VkPhotoORM.telegram_id == telegram_id)\
+        .group_by(VkPhotoORM.image_id).count()
     return count
 
 
 def get_user_photo_list(
         db: Session,
-        token: UUID,
+        telegram_id: str,
         sort: Optional[SortedPhoto] = None,
         include_deleted: bool = False,
         date_from: Optional[datetime] = None,
@@ -29,7 +29,7 @@ def get_user_photo_list(
         offset: int = 0
 ) -> PaginatedList[VkPhoto]:
     filters = (
-        VkPhotoORM.token == token,
+        VkPhotoORM.telegram_id == telegram_id,
         VkPhotoORM.deleted_at.is_(None) if not include_deleted else True,
 
         date_from <= VkPhotoORM.image_date if date_from is not None else True,

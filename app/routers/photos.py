@@ -15,11 +15,6 @@ from app.schemas.vk_photo import VkPhotoRequest, VkPhoto
 router = APIRouter(prefix='/photo')
 
 
-def test_f(token: str):
-    print(321)
-    return token
-
-
 @router.post(
     '/new',
     responses={
@@ -37,11 +32,11 @@ def add_new_photos(
     """Добавить новые фотографии"""
     user = get_user(token=token, db=db)
 
-    count_photos = crud.get_photo_count(db, token)
+    count_photos = crud.get_photo_count(db=db, telegram_id=user.telegram_id)
     if user.limit - len(photos) < count_photos:
         raise HTTPException(410, detail=f"Превышен лимит фотографий, доступно: {user.limit - count_photos}")
 
-    crud.update_cards(db, [photo.new_photo(token) for photo in photos])
+    crud.update_cards(db, [photo.new_photo(user.telegram_id) for photo in photos])
     return token
 
 
@@ -69,7 +64,7 @@ def get_user_photos(
     user = get_user(token=token, db=db)
     return crud.get_user_photo_list(
         db=db,
-        token=user.token,
+        telegram_id=user.telegram_id,
         sort=sort,
         include_deleted=include_deleted,
         date_from=date_from,

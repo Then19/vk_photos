@@ -6,7 +6,7 @@ from app.databases.clickhouse import Base
 class VkPhotoORM(Base):
     __tablename__ = "vk_photos"
 
-    token = Column(UUID)
+    telegram_id = Column(String)
     user_name = Column(String)
     image_id = Column(UUID, primary_key=True)
     chat_id = Column(String)

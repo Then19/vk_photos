@@ -6,7 +6,7 @@ from app.schemas import BaseModel
 
 
 class VkPhoto(BaseModel):
-    token: UUID
+    telegram_id: UUID
     user_name: str
     image_id: UUID
     chat_id: str
@@ -25,9 +25,9 @@ class VkPhotoRequest(BaseModel):
     chat_name: Optional[str]
     image_date: datetime
 
-    def new_photo(self, token: UUID) -> VkPhoto:
+    def new_photo(self, telegram_id: str) -> VkPhoto:
         return VkPhoto(
-            token=token,
+            telegram_id=telegram_id,
             image_id=uuid4(),
             updated_at=datetime.now().astimezone(),
             **self.dict()
