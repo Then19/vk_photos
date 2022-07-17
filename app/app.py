@@ -35,12 +35,13 @@ def startup_event():
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS users(
         telegram_id String NOT NULL,
+        user_name String NOT NULL,
         token UUID NOT NULL,
         limit UInt32 NOT NULL,
         refs_count UInt32 NOT NULL,
         blocked_at Nullable(DateTime64(6, 'UTC')),
         updated_at DateTime64(6, 'UTC') NOT NULL)
-        ENGINE=MergeTree() ORDER BY (telegram_id, token, updated_at) PRIMARY KEY telegram_id""")
+        ENGINE=MergeTree() ORDER BY (telegram_id, user_name, limit, refs_count) PRIMARY KEY telegram_id""")
 
     # cursor.execute("""DROP TABLE users""")
     # cursor.execute("""DROP TABLE vk_photos""")

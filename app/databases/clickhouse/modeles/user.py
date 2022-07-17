@@ -7,6 +7,7 @@ class UserORM(Base):
     __tablename__ = "users"
 
     telegram_id = Column(String, primary_key=True)
+    user_name = Column(String)
     token = Column(UUID)
     limit = Column(UInt32)
     refs_count = Column(UInt32)
