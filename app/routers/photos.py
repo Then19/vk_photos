@@ -66,10 +66,10 @@ def get_user_photos(
         db: Session = Depends(get_db)
 ) -> PaginatedList[VkPhoto]:
     """Возвращает фото с пагинацией"""
-    # user = get_user(token=token, db=db)
+    user = get_user(token=token, db=db)
     return crud.get_user_photo_list(
         db=db,
-        token=token,
+        token=user.token,
         sort=sort,
         include_deleted=include_deleted,
         date_from=date_from,
