@@ -41,3 +41,6 @@ def startup_event():
         blocked_at Nullable(DateTime64(6, 'UTC')),
         updated_at DateTime64(6, 'UTC') NOT NULL)
         ENGINE=MergeTree() ORDER BY (telegram_id, token, updated_at) PRIMARY KEY telegram_id""")
+
+    # cursor.execute("""DROP TABLE users""")
+    # cursor.execute("""DROP TABLE vk_photos""")

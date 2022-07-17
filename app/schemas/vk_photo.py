@@ -10,6 +10,7 @@ class VkPhoto(BaseModel):
     user_name: str
     image_id: UUID
     chat_id: str
+    chat_name: Optional[str]
     image_url: str
     image_path: Optional[str]
     image_date: datetime
@@ -21,6 +22,7 @@ class VkPhotoRequest(BaseModel):
     user_name: str
     chat_id: str
     image_url: str
+    chat_name: Optional[str]
     image_date: datetime
 
     def new_photo(self, token: UUID) -> VkPhoto:

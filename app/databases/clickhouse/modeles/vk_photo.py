@@ -10,6 +10,7 @@ class VkPhotoORM(Base):
     user_name = Column(String)
     image_id = Column(UUID, primary_key=True)
     chat_id = Column(String)
+    chat_name = Column(Nullable(String))
     image_url = Column(String)
     image_path = Column(Nullable(String))
     image_date = Column(DateTime64(6, 'UTC'))
