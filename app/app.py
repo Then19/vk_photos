@@ -40,7 +40,7 @@ def startup_event():
         limit UInt32 NOT NULL,
         refs_count UInt32 NOT NULL,
         blocked_at Nullable(DateTime64(6, 'UTC')),
-        created_at DateTime64(6, 'UTC') NOT NULL),
+        created_at DateTime64(6, 'UTC') NOT NULL,
         updated_at DateTime64(6, 'UTC') NOT NULL)
         ENGINE=MergeTree() ORDER BY (telegram_id, user_name, created_at, updated_at) PRIMARY KEY telegram_id""")
 
