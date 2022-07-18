@@ -45,7 +45,8 @@ def add_new_photos(
     response_model=VkPhoto,
     responses={
         403: {'model': DefaultHTTPException, 'description': "Пользователь не зарегистрирован"},
-        405: {'model': DefaultHTTPException, 'description': "Пользователь заблокирован"}
+        405: {'model': DefaultHTTPException, 'description': "Пользователь заблокирован"},
+        404: {'model': DefaultHTTPException, 'description': "Фото по таким параметрам не найдено"},
     }
 )
 def get_random_photo(
@@ -53,10 +54,15 @@ def get_random_photo(
         ignore_groups: bool = Query(False, alias="ignoreGroups"),
 
         db: Session = Depends(get_db)
-) -> Optional[VkPhoto]:
+) -> VkPhoto:
     """Возвращает случайную фотографию пользователя"""
     user = get_user(token=token, db=db)
-    return crud.get_random_photo(db=db, telegram_id=user.telegram_id, ignore_groups=ignore_groups)
+
+    photo = crud.get_random_photo(db=db, telegram_id=user.telegram_id, ignore_groups=ignore_groups)
+    if not photo:
+        raise HTTPException(404, detail="Фото по таким параметрам не найдено")
+
+    return photo
 
 
 @router.get(
