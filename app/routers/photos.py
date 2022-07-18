@@ -41,6 +41,24 @@ def add_new_photos(
 
 
 @router.get(
+    '/random',
+    response_model=VkPhoto,
+    responses={
+        403: {'model': DefaultHTTPException, 'description': "Пользователь не зарегистрирован"},
+        405: {'model': DefaultHTTPException, 'description': "Пользователь заблокирован"}
+    }
+)
+def get_random_photo(
+        token: UUID = Query(...),
+
+        db: Session = Depends(get_db)
+) -> Optional[VkPhoto]:
+    """Возвращает случайную фотографию пользователя"""
+    user = get_user(token=token, db=db)
+    return crud.get_random_photo(db=db, telegram_id=user.telegram_id)
+
+
+@router.get(
     '/photos', response_model=PaginatedList[VkPhoto],
     responses={
         403: {'model': DefaultHTTPException, 'description': "Пользователь не зарегистрирован"},

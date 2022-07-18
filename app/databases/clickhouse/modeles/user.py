@@ -12,6 +12,7 @@ class UserORM(Base):
     limit = Column(UInt32)
     refs_count = Column(UInt32)
     blocked_at = Column(Nullable(DateTime64(6, 'UTC')))
+    created_at = Column(DateTime64(6, 'UTC'))
     updated_at = Column(DateTime64(6, 'UTC'))
 
     def __repr__(self):

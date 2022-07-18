@@ -58,3 +58,14 @@ def get_user_photo_list(
             for photo in data
         ]
     )
+
+
+def get_random_photo(db: Session, telegram_id: str) -> Optional[VkPhoto]:
+    data = db.query(VkPhotoORM).order_by(func.random()).filter(
+        VkPhotoORM.telegram_id == telegram_id,
+        tuple_(VkPhotoORM.image_id, VkPhotoORM.updated_at).in_(
+            db.query(VkPhotoORM.image_id, func.max(VkPhotoORM.updated_at)).group_by(VkPhotoORM.image_id)
+        ),
+        VkPhotoORM.deleted_at.is_(None)
+    ).first()
+    return VkPhoto.from_orm(data) if data else None
