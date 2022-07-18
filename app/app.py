@@ -27,7 +27,7 @@ def startup_event():
             user_name String NOT NULL,
             image_id UUID NOT NULL,
             chat_id Int64 NOT NULL,
-            chat_name Nullable(String),
+            chat_name String NOT NULL,
             image_url String NOT NULL,
             image_path Nullable(String),
             image_date DateTime64(6, 'UTC') NOT NULL,

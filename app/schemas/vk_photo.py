@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Optional
 from uuid import UUID, uuid4
 
+from pydantic import validator
+
 from app.schemas import BaseModel
 
 
@@ -10,7 +12,7 @@ class VkPhoto(BaseModel):
     user_name: str
     image_id: UUID
     chat_id: int
-    chat_name: Optional[str]
+    chat_name: str
     image_url: str
     image_path: Optional[str]
     image_date: datetime
@@ -22,8 +24,14 @@ class VkPhotoRequest(BaseModel):
     user_name: str
     chat_id: int
     image_url: str
-    chat_name: Optional[str]
+    chat_name: str
     image_date: datetime
+
+    @validator('image_url')
+    def name_must_contain_space(cls, v: str):
+        if not v.startswith('https://sun9'):
+            raise ValueError('bad url')
+        return v
 
     def new_photo(self, telegram_id: int) -> VkPhoto:
         return VkPhoto(
