@@ -18,12 +18,15 @@ def startup_event():
     conn = connect(settings.clickhouse_dsn)
     cursor = conn.cursor()
 
+    # cursor.execute("""DROP TABLE users""")
+    # cursor.execute("""DROP TABLE vk_photos""")
+
     cursor.execute(
         """CREATE TABLE IF NOT EXISTS vk_photos (
             telegram_id UInt64 NOT NULL,
             user_name String NOT NULL,
             image_id UUID NOT NULL,
-            chat_id String NOT NULL,
+            chat_id Int64 NOT NULL,
             chat_name Nullable(String),
             image_url String NOT NULL,
             image_path Nullable(String),
@@ -43,6 +46,3 @@ def startup_event():
         created_at DateTime64(6, 'UTC') NOT NULL,
         updated_at DateTime64(6, 'UTC') NOT NULL)
         ENGINE=MergeTree() ORDER BY (telegram_id, user_name, created_at, updated_at) PRIMARY KEY telegram_id""")
-
-    # cursor.execute("""DROP TABLE users""")
-    # cursor.execute("""DROP TABLE vk_photos""")

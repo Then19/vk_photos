@@ -1,5 +1,5 @@
 from sqlalchemy import Column
-from clickhouse_sqlalchemy.types import DateTime64, UUID, String, Nullable, UInt64
+from clickhouse_sqlalchemy.types import DateTime64, UUID, String, Nullable, UInt64, Int64
 from app.databases.clickhouse import Base
 
 
@@ -9,7 +9,7 @@ class VkPhotoORM(Base):
     telegram_id = Column(UInt64)
     user_name = Column(String)
     image_id = Column(UUID, primary_key=True)
-    chat_id = Column(String)
+    chat_id = Column(Int64)
     chat_name = Column(Nullable(String))
     image_url = Column(String)
     image_path = Column(Nullable(String))

@@ -50,12 +50,13 @@ def add_new_photos(
 )
 def get_random_photo(
         token: UUID = Query(...),
+        ignore_groups: bool = Query(False, alias="ignoreGroups"),
 
         db: Session = Depends(get_db)
 ) -> Optional[VkPhoto]:
     """Возвращает случайную фотографию пользователя"""
     user = get_user(token=token, db=db)
-    return crud.get_random_photo(db=db, telegram_id=user.telegram_id)
+    return crud.get_random_photo(db=db, telegram_id=user.telegram_id, ignore_groups=ignore_groups)
 
 
 @router.get(
@@ -71,7 +72,7 @@ def get_user_photos(
         include_deleted: Optional[bool] = Query(False, alias="includeDeleted"),
         date_from: Optional[datetime] = Query(None, alias="dateFrom"),
         date_till: Optional[datetime] = Query(None, alias="dateTill"),
-        chat_id: Optional[str] = Query(None, alias="chatId"),
+        chat_id: Optional[int] = Query(None, alias="chatId"),
         user_name: Optional[str] = Query(None, alias="userName"),
         limit: int = 50,
         offset: int = 0,

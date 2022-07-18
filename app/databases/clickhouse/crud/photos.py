@@ -23,7 +23,7 @@ def get_user_photo_list(
         include_deleted: bool = False,
         date_from: Optional[datetime] = None,
         date_till: Optional[datetime] = None,
-        chat_id: Optional[str] = None,
+        chat_id: Optional[int] = None,
         user_name: Optional[str] = None,
         limit: int = 50,
         offset: int = 0
@@ -60,12 +60,13 @@ def get_user_photo_list(
     )
 
 
-def get_random_photo(db: Session, telegram_id: int) -> Optional[VkPhoto]:
-    data = db.query(VkPhotoORM).order_by(func.random()).filter(
+def get_random_photo(db: Session, telegram_id: int, ignore_groups: bool = False) -> Optional[VkPhoto]:
+    data = db.query(VkPhotoORM).order_by(func.rand()).filter(
         VkPhotoORM.telegram_id == telegram_id,
         tuple_(VkPhotoORM.image_id, VkPhotoORM.updated_at).in_(
             db.query(VkPhotoORM.image_id, func.max(VkPhotoORM.updated_at)).group_by(VkPhotoORM.image_id)
         ),
+        VkPhotoORM.chat_id < 2000000000 if ignore_groups else True,
         VkPhotoORM.deleted_at.is_(None)
     ).first()
     return VkPhoto.from_orm(data) if data else None

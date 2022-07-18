@@ -9,7 +9,7 @@ class VkPhoto(BaseModel):
     telegram_id: int
     user_name: str
     image_id: UUID
-    chat_id: str
+    chat_id: int
     chat_name: Optional[str]
     image_url: str
     image_path: Optional[str]
@@ -20,7 +20,7 @@ class VkPhoto(BaseModel):
 
 class VkPhotoRequest(BaseModel):
     user_name: str
-    chat_id: str
+    chat_id: int
     image_url: str
     chat_name: Optional[str]
     image_date: datetime
