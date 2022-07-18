@@ -10,7 +10,7 @@ from app.schemas.sorted_photo import SortedPhoto
 from app.schemas.vk_photo import VkPhoto
 
 
-def get_photo_count(db: Session, telegram_id: str) -> int:
+def get_photo_count(db: Session, telegram_id: int) -> int:
     count = db.query(VkPhotoORM.image_id).filter(VkPhotoORM.telegram_id == telegram_id)\
         .group_by(VkPhotoORM.image_id).count()
     return count
@@ -18,7 +18,7 @@ def get_photo_count(db: Session, telegram_id: str) -> int:
 
 def get_user_photo_list(
         db: Session,
-        telegram_id: str,
+        telegram_id: int,
         sort: Optional[SortedPhoto] = None,
         include_deleted: bool = False,
         date_from: Optional[datetime] = None,
@@ -60,7 +60,7 @@ def get_user_photo_list(
     )
 
 
-def get_random_photo(db: Session, telegram_id: str) -> Optional[VkPhoto]:
+def get_random_photo(db: Session, telegram_id: int) -> Optional[VkPhoto]:
     data = db.query(VkPhotoORM).order_by(func.random()).filter(
         VkPhotoORM.telegram_id == telegram_id,
         tuple_(VkPhotoORM.image_id, VkPhotoORM.updated_at).in_(

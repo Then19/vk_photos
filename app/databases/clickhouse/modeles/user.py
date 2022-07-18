@@ -1,12 +1,12 @@
 from sqlalchemy import Column
-from clickhouse_sqlalchemy.types import DateTime64, UUID, String, Nullable, UInt32
+from clickhouse_sqlalchemy.types import DateTime64, UUID, String, Nullable, UInt32, UInt64
 from app.databases.clickhouse import Base
 
 
 class UserORM(Base):
     __tablename__ = "users"
 
-    telegram_id = Column(String, primary_key=True)
+    telegram_id = Column(UInt64, primary_key=True)
     user_name = Column(String)
     token = Column(UUID)
     limit = Column(UInt32)

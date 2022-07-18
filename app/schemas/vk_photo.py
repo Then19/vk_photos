@@ -6,7 +6,7 @@ from app.schemas import BaseModel
 
 
 class VkPhoto(BaseModel):
-    telegram_id: UUID
+    telegram_id: int
     user_name: str
     image_id: UUID
     chat_id: str
@@ -25,7 +25,7 @@ class VkPhotoRequest(BaseModel):
     chat_name: Optional[str]
     image_date: datetime
 
-    def new_photo(self, telegram_id: str) -> VkPhoto:
+    def new_photo(self, telegram_id: int) -> VkPhoto:
         return VkPhoto(
             telegram_id=telegram_id,
             image_id=uuid4(),

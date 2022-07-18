@@ -20,7 +20,7 @@ def startup_event():
 
     cursor.execute(
         """CREATE TABLE IF NOT EXISTS vk_photos (
-            telegram_id String NOT NULL,
+            telegram_id UInt64 NOT NULL,
             user_name String NOT NULL,
             image_id UUID NOT NULL,
             chat_id String NOT NULL,
@@ -34,7 +34,7 @@ def startup_event():
     )
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS users(
-        telegram_id String NOT NULL,
+        telegram_id UInt64 NOT NULL,
         user_name String NOT NULL,
         token UUID NOT NULL,
         limit UInt32 NOT NULL,

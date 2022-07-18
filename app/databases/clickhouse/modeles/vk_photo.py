@@ -1,12 +1,12 @@
 from sqlalchemy import Column
-from clickhouse_sqlalchemy.types import DateTime64, UUID, String, Nullable
+from clickhouse_sqlalchemy.types import DateTime64, UUID, String, Nullable, UInt64
 from app.databases.clickhouse import Base
 
 
 class VkPhotoORM(Base):
     __tablename__ = "vk_photos"
 
-    telegram_id = Column(String)
+    telegram_id = Column(UInt64)
     user_name = Column(String)
     image_id = Column(UUID, primary_key=True)
     chat_id = Column(String)

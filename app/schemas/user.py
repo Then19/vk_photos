@@ -6,7 +6,7 @@ from app.schemas import BaseModel
 
 
 class User(BaseModel):
-    telegram_id: str
+    telegram_id: int
     user_name: str
     token: UUID
     limit: int
